@@ -1,4 +1,3 @@
-
 #!/system/bin/sh
 
 ###
@@ -92,4 +91,3 @@ PREPARE_HIJACK () {
 }
 
 PREPARE_HIJACK
-[ $? -ne 0 ] && echo "[hijack] busybox not found." > /dev/kmsg
