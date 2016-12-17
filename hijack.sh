@@ -101,7 +101,7 @@ KILL () {
 	done
 
 	# kill processes
-	for runningprc in $(ps | grep /system/bin | grep -v grep | grep -v chargemon | awk '{print $1}' ) 
+	for runningprc in $(ps | grep /system/bin | grep -v grep | awk '{print $1}' ) 
 	do
 		kill -9 $runningprc
 	done
