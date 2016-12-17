@@ -195,10 +195,6 @@ HIJACK () {
 		LED
 		READY /recovery
 		chroot /recovery /init
-	# VOL -
-	elif [ -s /temp/event/keycheck_down ]; then
-		LED 255 100 100
-		source /system/etc/init.qcom.modem_links.sh.origin
 	# normal
 	else
 		KILL
