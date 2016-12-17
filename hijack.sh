@@ -124,7 +124,7 @@ VIBRAT () {
 
 HIJACK () {
 	# check already hijacked
-	if [ -s /temp/hijacked ]; then
+	if [ -f /temp/hijacked ]; then
 		exit 0
 	fi
 
