@@ -50,7 +50,17 @@ LED () {
 }
 
 mount -o rw,remount /
-mkdir /temp/event
+mkdir /switch/event
+mkdir /switch/bin
+cp /system/hijack/busybox /switch/bin/
+chmod 755 /switch/bin/busybox
+local cmd
+for cmd in `/switch/bin/busybox --list`
+do
+	ln -s /switch/bin/busybox /switch/bin/$cmd
+done
+
+PATH="/switch/bin:$PATH"
 
 VIBRAT
 LED 255 255 255
@@ -58,7 +68,7 @@ LED 255 255 255
 for eventdev in $(ls /dev/input/event*)
 do
 	suffix="$(expr ${eventdev} : '/dev/input/event\(.*\)')"
-	cat ${eventdev} > /temp/event/key${suffix} &
+	cat ${eventdev} > /switch/event/key${suffix} &
 done
 
 sleep 2
@@ -71,12 +81,12 @@ do
 done
 
 # check keys event
-hexdump /temp/event/key* | grep -e '^.* 0001 0072 .... ....$' > /temp/event/keycheck_down
-hexdump /temp/event/key* | grep -e '^.* 0001 0073 .... ....$' > /temp/event/keycheck_up
+hexdump /switch/event/key* | grep -e '^.* 0001 0072 .... ....$' > /switch/event/keycheck_down
+hexdump /switch/event/key* | grep -e '^.* 0001 0073 .... ....$' > /switch/event/keycheck_up
 
-if [ -s /temp/event/keycheck_down ]; then
+if [ -s /switch/event/keycheck_down ]; then
     source /system/hijack/hijack-kicker.sh
-elif [ -s /temp/event/keycheck_up ]; then
+elif [ -s /switch/event/keycheck_up ]; then
     source /system/hijack/hijack-kicker.sh
 else
     source /system/etc/init.qcom.modem_links.switch.sh
