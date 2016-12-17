@@ -93,6 +93,12 @@ KILL () {
 	done
 }
 
+READY () {
+	# tell already hijacked to hijack script...
+	mkdir $1/temp
+	touch $1/temp/hijacked
+}
+
 LED () {
 	local red="/sys/class/leds/*-red/brightness" 
 	local green="/sys/class/leds/*-green/brightness"
@@ -114,6 +120,11 @@ VIBRAT () {
 }
 
 HIJACK () {
+	# check already hijacked
+	if [ -s /temp/hijacked ]; then
+		exit 0
+	fi
+
 	# declaration
 	local eventdev
 	local suffix
@@ -143,24 +154,30 @@ HIJACK () {
 	hexdump /temp/event/key* | grep -e '^.* 0001 0072 .... ....$' > /temp/event/keycheck_down
 	hexdump /temp/event/key* | grep -e '^.* 0001 0073 .... ....$' > /temp/event/keycheck_up
 
-	# kill / clean stock something
-	KILL
-	CLEAN
-
 	# VOL +
 	if [ -s /temp/event/keycheck_up ]; then
 		LED 0 255 255
-		VIBRAT
+		KILL
+		CLEAN
+		mkdir /recovery
+		cd /recovery
 		gzip -dc /temp/ramdisk/ramdisk-recovery.img | cpio -i
-	else
+		sleep 1
+		LED
+		READY /recovery
+		chroot /recovery /init
+	elif [ -s /temp/event/keycheck_down ]; then
+		LED 255 100 100
+		KILL
+		CLEAN
+		mkdir /rootdir
+		cd /rootdir
 		cpio -idu < /temp/ramdisk/ramdisk.cpio
+		sleep 1
+		LED
+		READY /rootdir
+		chroot /rootdir /init
 	fi
-
-	sleep 1
-	LED
-
-	# kick!
-	chroot / /init
 }
 
 MAIN () {
