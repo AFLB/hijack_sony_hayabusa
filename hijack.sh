@@ -35,20 +35,20 @@ CLEAN () {
 	# unmount stock mountpoints
 	umount -l /acct
 	umount -l /cache
-	umount -l /mnt/int_storage
-	umount -l /storage/sdcard0
+	umount -l /data/tombstones
 	umount -l /data
 	umount -l /dev/cpuctl
 	umount -l /firmware
 	umount -l /mnt/asec
 	umount -l /mnt/idd
+	umount -l /mnt/int_storage
 	umount -l /mnt/obb
 	umount -l /mnt/secure
+	umount -l /storage/sdcard0
 	umount -l /storage/sdcard1
 	umount -l /storage/usbdisk
 	umount -l /sys/kernel/debug
 	umount -l /system
-	umount -l /tombstones
 	umount -l /boot/modem_fs1
 	umount -l /boot/modem_fs2
 
@@ -77,7 +77,7 @@ CLEAN () {
 	rm -f /tombstones
 	rm -f /usbdisk
 	rm -f /vendor
-	rm -f /init* /*.rc
+	rm -f /init* /*.rc default.prop
 	rm -f /mnt
 	rm -f /sbin
 	rm -f /storage
@@ -118,6 +118,9 @@ KILL () {
 			killall $binary
 		fi
 	done
+
+	# syncronize change
+	sync
 }
 
 READY () {
