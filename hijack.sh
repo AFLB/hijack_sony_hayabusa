@@ -33,27 +33,30 @@ PATH="/temp/bin:$PATH"
 
 CLEAN () {
 	# unmount stock mountpoints
-	umount /acct
-	umount /cache
-	umount /data
-	umount /dev/cpuctl
-	umount /firmware
-	umount /mnt/asec
-	umount /mnt/idd
-	umount /mnt/int_storage
-	umount /mnt/obb
-	umount /mnt/secure
-	umount /storage/sdcard1
-	umount /storage/usbdisk
-	umount /sys/kernel/debug
-	umount /system
-	umount /tombstones
+	umount -l /acct
+	umount -l /cache
+	umount -l /data
+	umount -l /dev/cpuctl
+	umount -l /firmware
+	umount -l /mnt/asec
+	umount -l /mnt/idd
+	umount -l /mnt/int_storage
+	umount -l /mnt/obb
+	umount -l /mnt/secure
+	umount -l /storage/sdcard1
+	umount -l /storage/usbdisk
+	umount -l /sys/kernel/debug
+	umount -l /system
+	umount -l /tombstones
 
 	# remove unneed folders
 	rm -r /sbin
 	rm -r /storage
 	rm -r /mnt
 	rm -f sdcard sdcard1 ext_card init* *.rc
+
+	# syncronize change
+	sync
 }
 
 KILL () {
