@@ -32,7 +32,7 @@
 PATH="/temp/bin:$PATH"
 
 CLEAN () {
-    # unmount stock mountpoints
+	# unmount stock mountpoints
 	umount /acct
 	umount /cache
 	umount /data
@@ -49,7 +49,7 @@ CLEAN () {
 	umount /system
 	umount /tombstones
 
-    # remove unneed folders
+	# remove unneed folders
 	rm -r /sbin
 	rm -r /storage
 	rm -r /mnt
@@ -57,7 +57,7 @@ CLEAN () {
 }
 
 KILL () {
-    local runningsvc
+	local runningsvc
 	local runningsvcname
 	local runningprc
 	local lockingpid
@@ -143,23 +143,23 @@ HIJACK () {
 	hexdump /temp/event/key* | grep -e '^.* 0001 0072 .... ....$' > /temp/event/keycheck_down
 	hexdump /temp/event/key* | grep -e '^.* 0001 0073 .... ....$' > /temp/event/keycheck_up
 
-    # kill / clean stock something
-    KILL
-    CLEAN
+	# kill / clean stock something
+	KILL
+	CLEAN
 
-    # VOL +
+	# VOL +
 	if [ -s /temp/event/keycheck_up ]; then
-        LED 0 255 255
-        VIBRAT
-        gzip -dc /temp/ramdisk/ramdisk-recovery.img | cpio -i
+		LED 0 255 255
+		VIBRAT
+		gzip -dc /temp/ramdisk/ramdisk-recovery.img | cpio -i
 	else
-	    cpio -idu < /temp/ramdisk/ramdisk.cpio
+		cpio -idu < /temp/ramdisk/ramdisk.cpio
 	fi
 
-    sleep 1
-    LED
+	sleep 1
+	LED
 
-    # kick!
+	# kick!
 	chroot / /init
 }
 
@@ -168,7 +168,7 @@ MAIN () {
 	mount -o remount,rw rootfs /
 	mkdir -p /temp/event/
 
-    HIJACK
+	HIJACK
 }
 
 MAIN
