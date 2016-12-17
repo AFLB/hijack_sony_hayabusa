@@ -186,13 +186,14 @@ HIJACK () {
 	# VOL +
 	if [ -s /temp/event/keycheck_up ]; then
 		LED 0 255 255
+		sleep 1
+		LED
 		KILL
 		CLEAN
 		mkdir /recovery
 		cd /recovery
 		gzip -dc /temp/ramdisk/ramdisk-recovery.img | cpio -i
 		sleep 1
-		LED
 		READY /recovery
 		chroot /recovery /init
 	# normal
@@ -202,7 +203,6 @@ HIJACK () {
 		cd /
 		cpio -idu < /temp/ramdisk/ramdisk.cpio
 		sleep 1
-		LED
 		READY /
 		chroot / /init
 	fi
