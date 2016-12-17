@@ -100,9 +100,9 @@ READY () {
 }
 
 LED () {
-	local red="/sys/class/leds/*-red/brightness" 
-	local green="/sys/class/leds/*-green/brightness"
-	local blue="/sys/class/leds/*-blue/brightness" 
+	local red="/sys/class/leds/pwr-red/brightness" 
+	local green="/sys/class/leds/pwr-green/brightness"
+	local blue="/sys/class/leds/pwr-blue/brightness" 
 	if [ "$1" = "" ]; then
 		echo 0 > $red
 		echo 0 > $green
