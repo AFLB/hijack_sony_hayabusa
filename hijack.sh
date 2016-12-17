@@ -183,19 +183,8 @@ HIJACK () {
 	hexdump /temp/event/key* | grep -e '^.* 0001 0072 .... ....$' > /temp/event/keycheck_down
 	hexdump /temp/event/key* | grep -e '^.* 0001 0073 .... ....$' > /temp/event/keycheck_up
 
-	# VOL both
-	if [ -s /temp/event/keycheck_up -a -s /temp/event/keycheck_down ]; then
-		LED 255 255 0
-		KILL
-		CLEAN
-		cd /
-		cpio -idu < /temp/ramdisk/ramdisk.cpio
-		sleep 1
-		LED
-		READY /
-		chroot / /init
 	# VOL +
-	elif [ -s /temp/event/keycheck_up ]; then
+	if [ -s /temp/event/keycheck_up ]; then
 		LED 0 255 255
 		KILL
 		CLEAN
