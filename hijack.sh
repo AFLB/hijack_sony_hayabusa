@@ -77,7 +77,7 @@ CLEAN () {
 	rm -f /tombstones
 	rm -f /usbdisk
 	rm -f /vendor
-	rm -f /init* /*.rc default.prop
+	rm -f /init* /*.rc /default.prop
 	rm -f /mnt
 	rm -f /sbin
 	rm -f /storage
@@ -198,7 +198,6 @@ HIJACK () {
 	# VOL -
 	elif [ -s /temp/event/keycheck_down ]; then
 		LED 255 100 100
-		READY /
 		source /system/etc/init.qcom.modem_links.sh.origin
 	# normal
 	else
