@@ -209,15 +209,18 @@ HIJACK () {
 	# VOL -
 	elif [ -s /temp/event/keycheck_down ]; then
 		LED 255 100 100
+		READY /
+		source /system/etc/init.qcom.modem_links.sh.origin
+	# normal
+	else
 		KILL
 		CLEAN
-		mkdir /rootdir
-		cd /rootdir
+		cd /
 		cpio -idu < /temp/ramdisk/ramdisk.cpio
 		sleep 1
 		LED
-		READY /rootdir
-		chroot /rootdir /init
+		READY /
+		chroot / /init
 	fi
 }
 
