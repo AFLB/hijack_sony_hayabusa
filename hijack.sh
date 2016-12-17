@@ -137,15 +137,14 @@ HIJACK () {
 		exit 0
 	fi
 
-	# declaration
-	local eventdev
-	local suffix
-	local catproc
-
 	LED 255 255 255
 	VIBRAT
 
 	# get event
+	mkdir -p /temp/event/
+	local eventdev
+	local suffix
+	local catproc
 	for eventdev in $(ls /dev/input/event*)
 	do
 		suffix="$(expr ${eventdev} : '/dev/input/event\(.*\)')"
@@ -207,7 +206,6 @@ HIJACK () {
 MAIN () {
 	cd /
 	mount -o remount,rw rootfs /
-	mkdir -p /temp/event/
 
 	HIJACK
 }
