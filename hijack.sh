@@ -43,6 +43,7 @@ CLEAN () {
 	umount -l /mnt/int_storage
 	umount -l /mnt/obb
 	umount -l /mnt/secure
+	umount -l /storage/sdcard0
 	umount -l /storage/sdcard1
 	umount -l /storage/usbdisk
 	umount -l /sys/kernel/debug
