@@ -50,8 +50,8 @@ LED () {
 }
 
 mount -o rw,remount /
-mkdir /switch/event
-mkdir /switch/bin
+mkdir -p /switch/event
+mkdir -p /switch/bin
 cp /system/hijack/busybox /switch/bin/
 chmod 755 /switch/bin/busybox
 local cmd
