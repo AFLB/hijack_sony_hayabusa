@@ -49,14 +49,22 @@ CLEAN () {
 	umount -l /system
 	umount -l /tombstones
 
+	# unmount for around double mounting
+	umount -l /dev
+	umount -l /dev/pts
+	umount -l /proc
+	umount -l /sys
+	umount -l /sys/fs/selinux
+
+	# syncronize change
+	sleep 1
+	sync
+
 	# remove unneed folders
 	rm -r /sbin
 	rm -r /storage
 	rm -r /mnt
 	rm -f sdcard sdcard1 ext_card init* *.rc
-
-	# syncronize change
-	sync
 }
 
 KILL () {
