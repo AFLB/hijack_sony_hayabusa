@@ -35,37 +35,52 @@ CLEAN () {
 	# unmount stock mountpoints
 	umount -l /acct
 	umount -l /cache
+	umount -l /mnt/int_storage
+	umount -l /storage/sdcard0
 	umount -l /data
 	umount -l /dev/cpuctl
 	umount -l /firmware
 	umount -l /mnt/asec
 	umount -l /mnt/idd
-	umount -l /mnt/int_storage
 	umount -l /mnt/obb
 	umount -l /mnt/secure
-	umount -l /storage/sdcard0
 	umount -l /storage/sdcard1
 	umount -l /storage/usbdisk
 	umount -l /sys/kernel/debug
 	umount -l /system
 	umount -l /tombstones
+	umount -l /boot/modem_fs1
+	umount -l /boot/modem_fs2
 
 	# unmount for around double mounting
-	umount -l /dev
 	umount -l /dev/pts
+	umount -l /dev
 	umount -l /proc
-	umount -l /sys
 	umount -l /sys/fs/selinux
+	umount -l /sys
 
 	# syncronize change
 	sleep 1
 	sync
 
-	# remove unneed folders
-	rm -r /sbin
-	rm -r /storage
-	rm -r /mnt
-	rm -f sdcard sdcard1 ext_card init* *.rc
+	# remove unneed files
+	rm -f /d
+	rm -f /data/bugreports
+	rm -f /data/system/wpa_supplicant
+	rm -f /etc
+	rm -f /ext_card
+	rm -f /mnt/sdcard
+	rm -f /mnt/usbdisk
+	rm -f /sdcard
+	rm -f /sdcard1
+	rm -f /tmp
+	rm -f /tombstones
+	rm -f /usbdisk
+	rm -f /vendor
+	rm -f /init* /*.rc
+	rm -f /mnt
+	rm -f /sbin
+	rm -f /storage
 }
 
 KILL () {
