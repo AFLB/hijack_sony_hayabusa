@@ -29,7 +29,9 @@
 #
 ###
 
-PATH="/temp/bin:$PATH"
+# save PATH and set temporary bin to PATH
+path=$PATH
+export PATH="/temp/bin:$PATH"
 
 CLEAN () {
 	# unmount stock mountpoints
@@ -196,6 +198,13 @@ HIJACK () {
 		sleep 1
 		READY /recovery
 		chroot /recovery /init
+	# VOL -
+	elif [ -s /temp/event/keycheck_down ]; then
+		LED 50 255 50
+		sleep 1
+		LED
+		export PATH=$path
+		exec /system/bin/chargemon
 	# normal
 	else
 		KILL
