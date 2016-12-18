@@ -191,7 +191,7 @@ HIJACK () {
 	hexdump /temp/event/key* | grep -e '^.* 0001 0073 .... ....$' > /temp/event/keycheck_up
 
 	# VOL +
-	if [ -s /temp/event/keycheck_up ]; then
+	if [ -s /temp/event/keycheck_up -a -f /temp/ramdisk/ramdisk-recovery.*  ]; then
 		LED 0 255 255
 		sleep 1
 		LED
