@@ -203,6 +203,7 @@ HIJACK () {
 		LED 50 255 50
 		sleep 1
 		LED
+		READY /
 		export PATH=$path
 		exec /system/bin/chargemon
 	# normal
