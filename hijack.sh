@@ -217,11 +217,9 @@ HIJACK () {
 	fi
 }
 
-MAIN () {
-	cd /
-	mount -o remount,rw rootfs /
+# prepare
+cd /
+mount -o remount,rw rootfs /
 
-	HIJACK
-}
-
-MAIN
+# do hijack!
+HIJACK
