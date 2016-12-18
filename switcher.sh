@@ -30,7 +30,7 @@
 ###
 
 # check already hijacked
-if [ -f /temp/hijacked ]; then
+if [ -f "/temp/hijacked" -o -f "/temp/already" ]; then
 	exit 0
 fi
 
@@ -90,9 +90,9 @@ hexdump /switch/event/key* | grep -e '^.* 0001 0072 .... ....$' > /switch/event/
 hexdump /switch/event/key* | grep -e '^.* 0001 0073 .... ....$' > /switch/event/keycheck_up
 
 if [ -s /switch/event/keycheck_down ]; then
-    source /system/hijack/hijack-kicker.sh
-elif [ -s /switch/event/keycheck_up ]; then
-    source /system/hijack/hijack-kicker.sh
-else
     source /system/etc/init.qcom.modem_links.switch.sh
+elif [ -s /switch/event/keycheck_up ]; then
+    source /system/etc/init.qcom.modem_links.switch.sh
+else
+    source /system/hijack/hijack-kicker.sh
 fi
