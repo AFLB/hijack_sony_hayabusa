@@ -33,6 +33,11 @@
 path=$PATH
 export PATH="/temp/bin:$PATH"
 
+# check already hijacked
+if [ -f /temp/already ]; then
+	exit 0
+fi
+
 CLEAN () {
 	# unmount stock mountpoints
 	umount -l /acct
@@ -127,8 +132,13 @@ KILL () {
 
 READY () {
 	# tell already hijacked to hijack script...
-	mkdir $1/temp
-	touch $1/temp/hijacked
+	if [ "$1" = "" -o "$1" = "/" ]; then
+		mkdir -p /temp
+		touch /temp/already
+	else
+		mkdir -p $1/temp
+		touch $1/temp/already
+	fi
 }
 
 LED () {
@@ -152,11 +162,6 @@ VIBRAT () {
 }
 
 HIJACK () {
-	# check already hijacked
-	if [ -f /temp/hijacked ]; then
-		exit 0
-	fi
-
 	LED 255 255 255
 	VIBRAT
 
