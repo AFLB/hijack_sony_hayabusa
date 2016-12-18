@@ -48,46 +48,42 @@
 #
 ###
 
-PREPARE_HIJACK () {
-    ###
-    # prepare
-    ###
-    mount -o remount,rw rootfs /
-    mkdir -p /temp
-    mkdir -p /temp/bin
-    mkdir -p /temp/script
-    mkdir -p /temp/ramdisk
+###
+# prepare
+###
+mount -o remount,rw rootfs /
+mkdir -p /temp
+mkdir -p /temp/bin
+mkdir -p /temp/script
+mkdir -p /temp/ramdisk
 
-    ###
-    # copy busybox
-    ###
-    # why? - to use high-functioning busybox
-    # stock ramdisk has only minimal busybox...
-    ###
-    cp /system/hijack/busybox /temp/bin/
-    chmod 755 /temp/bin/busybox
-    local cmd
-    for cmd in `/temp/bin/busybox --list`
-    do
-        ln -s /temp/bin/busybox /temp/bin/$cmd
-    done
+###
+# copy busybox
+###
+# why? - to use high-functioning busybox
+# stock ramdisk has only minimal busybox...
+###
+cp /system/hijack/busybox /temp/bin/
+chmod 755 /temp/bin/busybox
+local cmd
+for cmd in `/temp/bin/busybox --list`
+do
+ln -s /temp/bin/busybox /temp/bin/$cmd
+done
 
-    ###
-    # copy scripts
-    ###
-    cp /system/hijack/hijack.sh /temp/script/
-    chmod 755 /temp/script/*.sh
+###
+# copy scripts
+###
+cp /system/hijack/hijack.sh /temp/script/
+chmod 755 /temp/script/*.sh
 
-    ###
-    # copy ramdisk images
-    ###
-    cp /system/hijack/ramdisk-recovery.img /temp/ramdisk/
-    cp /system/hijack/ramdisk.cpio /temp/ramdisk/
+###
+# copy ramdisk images
+###
+cp /system/hijack/ramdisk-recovery.img /temp/ramdisk/
+cp /system/hijack/ramdisk.cpio /temp/ramdisk/
 
-    ###
-    # kick hijack script
-    ###
-    exec /temp/bin/sh -c /temp/script/hijack.sh
-}
-
-PREPARE_HIJACK
+###
+# kick hijack script
+###
+exec /temp/bin/sh -c /temp/script/hijack.sh
