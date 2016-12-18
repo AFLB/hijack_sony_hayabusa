@@ -161,10 +161,7 @@ VIBRAT () {
 	echo 150 > $viberator
 }
 
-HIJACK () {
-	LED 255 255 255
-	VIBRAT
-
+SWITCH () {
 	# get event
 	mkdir -p /temp/event/
 	local eventdev
@@ -189,24 +186,35 @@ HIJACK () {
 	# check keys event
 	hexdump /temp/event/key* | grep -e '^.* 0001 0072 .... ....$' > /temp/event/keycheck_down
 	hexdump /temp/event/key* | grep -e '^.* 0001 0073 .... ....$' > /temp/event/keycheck_up
+}
+
+HIJACK () {
+	LED 255 255 255
+	VIBRAT
+
+	# check warmboot
+	grep 'warmboot=0x77665502' /proc/cmdline && touch /temp/warmboot
+
+	if [ ! -f /temp/warmboot ]; then
+		SWITCH
+	fi
 
 	# VOL +
-	if [ -s /temp/event/keycheck_up -a -f /temp/ramdisk/ramdisk-recovery.*  ]; then
+	if [ \( -s /temp/event/keycheck_up -o -f /temp/warmboot \) -a -f /temp/ramdisk/ramdisk-recovery.* ]; then
 		LED 0 255 255
 		sleep 1
 		LED
 		KILL
 		CLEAN
-		mkdir /recovery
-		cd /recovery
+		cd /
 		if [ -f /temp/ramdisk/ramdisk-recovery.img ]; then
 			gzip -dc /temp/ramdisk/ramdisk-recovery.img | cpio -i
 		elif [ -f /temp/ramdisk/ramdisk-recovery.cpio ]; then
 			cpio -idu < /temp/ramdisk/ramdisk-recovery.cpio
 		fi
 		sleep 1
-		READY /recovery
-		chroot /recovery /init
+		READY /
+		chroot / /init
 	# VOL -
 	elif [ -s /temp/event/keycheck_down ]; then
 		LED 50 255 50
