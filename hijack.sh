@@ -195,9 +195,8 @@ HIJACK () {
 	# check warmboot
 	grep 'warmboot=0x77665502' /proc/cmdline && touch /temp/warmboot
 
-	if [ ! -f /temp/warmboot ]; then
-		SWITCH
-	fi
+	# call switch when not warmboot
+	[ ! -f /temp/warmboot ] && SWITCH
 
 	# VOL +
 	if [ \( -s /temp/event/keycheck_up -o -f /temp/warmboot \) -a -f /temp/ramdisk/ramdisk-recovery.* ]; then
