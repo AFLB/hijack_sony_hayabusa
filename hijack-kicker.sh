@@ -81,6 +81,7 @@ chmod 755 /temp/script/*.sh
 # copy ramdisk images
 ###
 cp /system/hijack/ramdisk-recovery.img /temp/ramdisk/
+cp /system/hijack/ramdisk-recovery.cpio /temp/ramdisk/
 cp /system/hijack/ramdisk.cpio /temp/ramdisk/
 
 ###

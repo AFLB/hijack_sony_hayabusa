@@ -199,7 +199,11 @@ HIJACK () {
 		CLEAN
 		mkdir /recovery
 		cd /recovery
-		gzip -dc /temp/ramdisk/ramdisk-recovery.img | cpio -i
+		if [ -f /temp/ramdisk/ramdisk-recovery.img ]; then
+			gzip -dc /temp/ramdisk/ramdisk-recovery.img | cpio -i
+		elif [ -f /temp/ramdisk/ramdisk-recovery.cpio ]; then
+			cpio -idu < /temp/ramdisk/ramdisk-recovery.cpio
+		fi
 		sleep 1
 		READY /recovery
 		chroot /recovery /init
