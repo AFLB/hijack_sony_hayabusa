@@ -29,6 +29,11 @@
 #
 ###
 
+# check already hijacked
+if [ -f /temp/hijacked ]; then
+	exit 0
+fi
+
 VIBRAT () {
 	local viberator="/sys/class/timed_output/vibrator/enable"
 	echo 150 > $viberator
