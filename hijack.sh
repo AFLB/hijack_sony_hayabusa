@@ -162,6 +162,10 @@ VIBRAT () {
 }
 
 SWITCH () {
+	# tell starting of get SWITCH
+	LED 255 255 255
+	VIBRAT
+
 	# get event
 	mkdir -p /temp/event/
 	local eventdev
@@ -189,26 +193,19 @@ SWITCH () {
 }
 
 HIJACK () {
-	LED 255 255 255
-	VIBRAT
-
 	# check warmboot
-	grep 'warmboot=0x77665502' /proc/cmdline && touch /temp/warmboot
+	grep 'warmboot=0x77665502' /proc/cmdline > /temp/warmboot
 
 	# call switch when not warmboot
-	[ ! -f /temp/warmboot ] && SWITCH
+	[ ! -s /temp/warmboot ] && SWITCH
 
 	# VOL +
-	if [ \( -s /temp/event/keycheck_up -o -f /temp/warmboot \) -a -f /temp/ramdisk/ramdisk-recovery.* ]; then
-		[ ! -f /temp/warmboot ] && LED 0 255 255 && sleep 1 && LED
+	if [ \( -s /temp/event/keycheck_up -o -s /temp/warmboot \) -a -f /temp/ramdisk/ramdisk-recovery.* ]; then
+		[ ! -s /temp/warmboot ] && LED 0 255 255 && sleep 1 && LED
 		KILL
 		CLEAN
 		cd /
-		if [ -f /temp/ramdisk/ramdisk-recovery.img ]; then
-			gzip -dc /temp/ramdisk/ramdisk-recovery.img | cpio -i
-		elif [ -f /temp/ramdisk/ramdisk-recovery.cpio ]; then
-			cpio -idu < /temp/ramdisk/ramdisk-recovery.cpio
-		fi
+		gzip -dc /temp/ramdisk/ramdisk-recovery.img | cpio -i
 		sleep 1
 		READY /
 		chroot / /init
