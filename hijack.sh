@@ -71,23 +71,11 @@ CLEAN () {
 	sync
 
 	# remove unneed files
-	rm -f /d
-	rm -f /data/bugreports
-	rm -f /data/system/wpa_supplicant
-	rm -f /etc
-	rm -f /ext_card
-	rm -f /mnt/sdcard
-	rm -f /mnt/usbdisk
-	rm -f /sdcard
-	rm -f /sdcard1
-	rm -f /tmp
-	rm -f /tombstones
-	rm -f /usbdisk
-	rm -f /vendor
-	rm -f /init* /*.rc /default.prop
-	rm -f /mnt
-	rm -f /sbin
-	rm -f /storage
+	local root
+	for root in $(ls / | grep -v temp)
+	do
+		rm -rf $root
+	done
 }
 
 KILL () {
@@ -221,6 +209,7 @@ HIJACK () {
 	else
 		KILL
 		CLEAN
+		ls -la / > /temp/ls.txt
 		cd /
 		cpio -idu < /temp/ramdisk/ramdisk.cpio
 		sleep 1
