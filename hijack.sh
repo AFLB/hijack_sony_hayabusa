@@ -200,7 +200,7 @@ HIJACK () {
 	[ ! -s /temp/warmboot ] && SWITCH
 
 	# VOL +
-	if [ \( -s /temp/event/keycheck_up -o -s /temp/warmboot \) -a -f /temp/ramdisk/ramdisk-recovery.* ]; then
+	if [ -s /temp/event/keycheck_up -o -s /temp/warmboot ]; then
 		[ ! -s /temp/warmboot ] && LED 0 255 255 && sleep 1 && LED
 		KILL
 		CLEAN
